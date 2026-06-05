@@ -1,9 +1,9 @@
 CREATE TABLE public.review (
     id_review UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     review_comment TEXT,
-    contractors_id UUID REFERENCES public.contractors(id),
+    contractors_id UUID REFERENCES public.contractors(id) NOT NULL,
     service_review DECIMAL(3, 2) NOT NULL,
-    professional_id UUID REFERENCES public.professionals(id),
+    professional_id UUID REFERENCES public.professionals(id) NOT NULL,
     created_at DATE DEFAULT CURRENT_DATE
 );
 
@@ -14,8 +14,3 @@ ALTER TABLE public.review ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Avaliações visíveis para todos" 
 ON public.review FOR SELECT 
 USING (true);
-
--- 3. Apenas o usuário logado que criou a avaliação pode inserir uma nova
-CREATE POLICY "Usuários autenticados podem criar avaliações" 
-ON public.review FOR INSERT 
-WITH CHECK (auth.uid() = contractors_id);

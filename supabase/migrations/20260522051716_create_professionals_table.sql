@@ -30,3 +30,4 @@ USING (auth.uid() = user_id);
 CREATE POLICY "Usuário pode criar o seu registro de profissional" 
 ON public.professionals FOR INSERT 
 WITH CHECK (auth.uid() = user_id);
+
